@@ -7,7 +7,9 @@ function App() {
   //get array with random text from data
   const [loremText, setLoremText] = useState(data);
   //get value to track our input value
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState(0);
+  //value to store our paragraphs
+  const [paragraph, setParagraph] = useState([]);
 
   //watch input changes
   const handleChange = (e) => {
@@ -20,10 +22,27 @@ function App() {
       setValue(currentValue);
     }
   }
+  //get random value from arr
+  const getRandomText = () => {
+    const randomNum = Math.floor(Math.random() * loremText.length)
+    return loremText[randomNum];
+  }
+
+  //submit 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    //generate random paragraphs based on our value
+    for (let i = 0; i < value; i++) {
+      const random = getRandomText();
+      setParagraph((paragraph) => {
+        return [...paragraph, random]
+      })
+    }
+  }
   return (
     <section className="section-center">
       <Title />
-      <form className="lorem-form">
+      <form onSubmit={submitHandler} className="lorem-form">
         <label htmlFor="amount">paragraphs</label>
         <input
           type="number"
@@ -34,9 +53,7 @@ function App() {
         />
         <button className="btn">generate</button>
       </form>
-      <article className="lorem-text">
-        <p>hello</p>
-      </article>
+
     </section>
   );
 }
