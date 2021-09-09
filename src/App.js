@@ -5,11 +5,10 @@ import './App.css';
 
 function App() {
   //get array with random text from data
-  const [loremText, setLoremText] = useState(data);
+  const [loremText, setLoremText] = useState([]);
   //get value to track our input value
   const [value, setValue] = useState(0);
-  //value to store our paragraphs
-  const [paragraph, setParagraph] = useState([]);
+
 
   //watch input changes
   const handleChange = (e) => {
@@ -22,22 +21,25 @@ function App() {
       setValue(currentValue);
     }
   }
-  //get random value from arr
+  //get random value from data with random text arr
   const getRandomText = () => {
-    const randomNum = Math.floor(Math.random() * loremText.length)
-    return loremText[randomNum];
+    const randomNum = Math.floor(Math.random() * data.length)
+    return data[randomNum];
   }
 
   //submit 
   const submitHandler = (e) => {
     e.preventDefault();
+    const randomArr = [];
     //generate random paragraphs based on our value
     for (let i = 0; i < value; i++) {
       const random = getRandomText();
-      setParagraph((paragraph) => {
-        return [...paragraph, random]
-      })
+      randomArr.push(random);
     }
+    //and set them into state, on every click on generate we will show 
+    //proper number of randomly generated text from data
+    setLoremText(randomArr);
+
   }
   return (
     <section className="section-center">
@@ -53,7 +55,13 @@ function App() {
         />
         <button className="btn">generate</button>
       </form>
-
+      <article className="lorem-text">
+        {
+          loremText.map(item => {
+            return <p key={new Date().getTime().toString() + Math.random()}>{item}</p>
+          })
+        }
+      </article>
     </section>
   );
 }
