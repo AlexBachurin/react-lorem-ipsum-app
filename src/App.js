@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import data from './data'
 import Title from './Title';
+import Form from './Form';
+import Paragraph from './Paragraph';
 import './App.css';
 
 function App() {
-  //get array with random text from data
+  //state for storing array with randomly generated text in it
   const [loremText, setLoremText] = useState([]);
   //get value to track our input value
   const [value, setValue] = useState(0);
@@ -44,21 +46,18 @@ function App() {
   return (
     <section className="section-center">
       <Title />
-      <form onSubmit={submitHandler} className="lorem-form">
-        <label htmlFor="amount">paragraphs</label>
-        <input
-          type="number"
-          name="amount"
-          id="amount"
-          value={value}
-          onChange={handleChange}
-        />
-        <button className="btn">generate</button>
-      </form>
+      <Form
+        submitHandler={submitHandler}
+        handleChange={handleChange}
+        value={value}
+      />
       <article className="lorem-text">
         {
           loremText.map(item => {
-            return <p key={new Date().getTime().toString() + Math.random()}>{item}</p>
+            return <Paragraph
+              key={new Date().getTime().toString() + Math.random()}
+              item={item}
+            />
           })
         }
       </article>
